@@ -78,9 +78,9 @@ export class Login extends Component {
     const hideLogin = (!isMountedAndCreatedByRouter) || checkingToken || loggingIn;
 
     return (
-      <div style={{ position: 'fixed', left: 0, top: 0, width: '100%', height: '100%', textAlign: 'center', backgroundColor: '#F7DF1E', color: 'black' }}>
+      <div style={{ position: 'fixed', left: 0, top: 0, width: '100%', height: '100%', textAlign: 'center', backgroundColor: 'green', color: 'black' }}>
         <div style={{ position: 'relative', top: '50%', transform: 'translateY(-50%)' }}>
-          <div>
+          <div style={{color: 'white'}}>
             <h1>Score</h1>
           </div>
           <div style={{ maxHeight: hideLogin ? '0' : '298px', overflow: 'hidden', transition: 'max-height 0.5s ease-in-out' }}>
