@@ -7,6 +7,9 @@ import Login from './Login.jsx';
 import TodoApp from './TodoApp.jsx';
 import League from './League.jsx';
 import Navigation from './Navigation.jsx';
+import Profile from './Profile.jsx';
+import Home from './Home.jsx';
+import AddScore from './AddScore.jsx';
 import auth from '../core/auth';
 import * as CredentialsActions from '../actions/CredentialsActions';
 
@@ -42,10 +45,7 @@ class AppRoute extends Component {
       }
     };
 
-    // If authenticated has value, that means we got answer if the user is logged in.
-    // If authenticated is undefined that means callback will be called when finishes checking if logged in
-    const authenticated = auth.loggedIn(handleLoggedIn);
-    if (authenticated !== undefined) { handleLoggedIn(authenticated); }
+    auth.loggedIn(handleLoggedIn);
   }
   componentDidMount() {
     this.checkIfToStopAppRouterRenders();
@@ -73,7 +73,7 @@ class AppRoute extends Component {
     }
   }
   handleRedirect(nextState, replaceState) {
-    replaceState({ nextPathname: nextState.location.pathname }, this._authenticated ? '/main' : '/login');
+    replaceState({ nextPathname: nextState.location.pathname }, this._authenticated ? '/home' : '/login');
   }
 
   // these two things are passing the history to login.jsx via context (also used for logout)
@@ -94,8 +94,11 @@ class AppRoute extends Component {
 
     return (
       <Router history={history}>
-        <Route path="/nav" component={Navigation}>
-          <Route path="/main" component={TodoApp} onEnter={::this.checkAuth}/>
+        <Route path="/nav" component={Navigation} onEnter={::this.checkAuth}>
+          <Route path="/main" component={TodoApp}/>
+          <Route path="/home" component={Home}/>
+          <Route path="/score" component={AddScore}/>
+          <Route path="/profile" component={Profile}/>
           <Route path="/league" component={League}/>
         </Route>
         <Route path="/login" component={Login}/>

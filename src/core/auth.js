@@ -1,23 +1,7 @@
 import Firebase from 'firebase';
 
-const hint = 'password1';
 // TODO: find a better place for this to live
 var ref = new Firebase("https://league-score.firebaseio.com");
-function pretendTokenRequest(token, cb) {
-  setTimeout(() => {
-    if (!!token) {
-      cb({
-        authenticated: true,
-        time: Date.now(),
-        token
-      });
-    } else {
-      cb({
-        authenticated: false
-      });
-    }
-  }, 300);
-}
 
 export default {
   onChangeHandlers: [],
@@ -28,14 +12,16 @@ export default {
       password : password
     }, (error, authData) => {
       if (error) {
-        window.alert("received error on login");
         console.log("Login Failed!", error);
         callback(false, error);
       } else {
         console.log("Authenticated successfully with payload:", authData);
-        // these should be from authData
-        localStorage.token = Math.random().toString(36).substring(7);
-        localStorage.time = Date.now();
+        // need to figure out why expiry time is now
+        console.log("expiry is is: ", Date(authData.expires));
+        // need to figure out if local storage is the best place to leave this
+        localStorage.token = authData.token;
+        localStorage.tokenExpiryTime = authData.expires;
+        localStorage.uid = authData.auth.uid;
         callback(true, false);
       }
     });
@@ -55,10 +41,6 @@ export default {
     });
   },
 
-  getToken() {
-    return localStorage.token;
-  },
-
   logout(cb) {
     delete localStorage.token;
     if (cb) {
@@ -68,14 +50,13 @@ export default {
 
   // If doesn't have token or login time has passed, do not validate the token against the server.
   loggedIn(cb) {
-    let authenticated;
-    if (!localStorage.token || localStorage.time <= Date.now() - 1000 * 60) {
-      authenticated = false;
+    if (!localStorage.token || Date(localStorage.tokenExpiryTime) <= Date.now()) {
+      // user is not authenticated, return false
+      cb(false);
     } else {
-      pretendTokenRequest(localStorage.token, (res) => {
-        cb(res.authenticated);
-      });
+      // user is authenticated return true
+      // perhaps this should be a new token request to Firebase (in this situtation we would pass authenticated value to callback)
+      cb(true)
     }
-    return authenticated;
   }
 };

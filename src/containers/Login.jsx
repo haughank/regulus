@@ -7,6 +7,8 @@ import * as CredentialsActions from '../actions/CredentialsActions';
 
 export class Login extends Component {
 
+  // TODO: make this the logicLogic container with login and register as two seperate UI components
+
   static propTypes = {
     route: PropTypes.object,
     credentials: PropTypes.object,
@@ -65,17 +67,31 @@ export class Login extends Component {
     if (authenticated) {
       credentialsActions.addCredentialsSucess();
       // update route to show main page
-      this.context.history.push('/main');
+      this.context.history.push('/home');
     } else {
       credentialsActions.addCredentialsFailure(error);
     }
   }
 
+  // TODO: refactor these two into a single method
+  goToRegister(){
+    const { credentialsActions } = this.props;
+    credentialsActions.moveToRegister(true);
+  }
+
+  goToLogin(){
+    const { credentialsActions } = this.props;
+    credentialsActions.moveToRegister(false);
+  }
+
   render() {
     const { credentials } = this.props;
     const { isMountedAndCreatedByRouter } = this.state;
-    const { checkingToken, loggingIn, hint } = credentials;
+    const { checkingToken, loggingIn, hint, register } = credentials;
     const hideLogin = (!isMountedAndCreatedByRouter) || checkingToken || loggingIn;
+    // TODO: figure out why it works this way around, logic indicated it should be the opposite
+    const showRegister = register ? false : true;
+    const showLogin = !showRegister;
 
     return (
       <div style={{ position: 'fixed', left: 0, top: 0, width: '100%', height: '100%', textAlign: 'center', backgroundColor: 'green', color: 'black' }}>
@@ -84,31 +100,40 @@ export class Login extends Component {
             <h1>Score</h1>
           </div>
           <div style={{ maxHeight: hideLogin ? '0' : '298px', overflow: 'hidden', transition: 'max-height 0.5s ease-in-out' }}>
-            <h2>Register</h2>
-            <form onSubmit={::this.handleRegisterSubmit}>
-              <div style={{ paddingTop: '5px' }}>
-                <input type="text" ref="newEmail" placeholder="Email"/>
-              </div>
-              <div style={{ paddingTop: '5px' }}>
-                <input type="password" ref="newPassword" placeholder="Password"/>
-              </div>
-              <div style={{ paddingTop: '5px' }}>
-                <input type="submit" value="Register"/>
-              </div>
-            </form>
-            <h2>Login</h2>
-            <form onSubmit={::this.handleLoginSubmit}>
-              <div style={{ paddingTop: '5px' }}>
-                <input type="text" ref="email" placeholder="Email"/>
-              </div>
-              <div style={{ paddingTop: '5px' }}>
-                <input type="password" ref="password" placeholder="Password"/>
+          <div hidden={showRegister}>
+              <h2>Register</h2>
+              <form onSubmit={::this.handleRegisterSubmit}>
+                <div style={{ paddingTop: '5px' }}>
+                  <input type="text" ref="newEmail" placeholder="Email"/>
+                </div>
+                <div style={{ paddingTop: '5px' }}>
+                  <input type="password" ref="newPassword" placeholder="Password"/>
+                </div>
                 <div style={{ height: '1em' }}>{hint && `Hint: ${hint}`}</div>
-              </div>
-              <div style={{ paddingTop: '5px' }}>
-                <input type="submit" value="Login"/>
-              </div>
-            </form>
+                <div style={{ paddingTop: '5px' }}>
+                  <input type="submit" value="Register"/>
+                </div>
+              </form>
+              <br/>
+              <div> Already registered? <a href="#" onClick={::this.goToLogin}> Click here to login </a> </div>
+            </div>
+            <div hidden={showLogin}>
+              <h2>Login</h2>
+              <form onSubmit={::this.handleLoginSubmit}>
+                <div style={{ paddingTop: '5px' }}>
+                  <input type="text" ref="email" placeholder="Email"/>
+                </div>
+                <div style={{ paddingTop: '5px' }}>
+                  <input type="password" ref="password" placeholder="Password"/>
+                  <div style={{ height: '1em', color: 'white' }}>{hint && `${hint}`}</div>
+                </div>
+                <div style={{ paddingTop: '5px' }}>
+                  <input type="submit" value="Login"/>
+                </div>
+              </form>
+              <br/>
+              <div> No Login? <a href="#" onClick={::this.goToRegister}> Click here to Register </a> </div>
+            </div>
           </div>
         </div>
       </div>

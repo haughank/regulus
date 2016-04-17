@@ -36,3 +36,10 @@ export function addCredentialsFailure(hint) {
     hint
   };
 }
+
+export function moveToRegister(value) {
+  return {
+    type: types.MOVE_TO_REGISTER,
+    value
+  };
+}
