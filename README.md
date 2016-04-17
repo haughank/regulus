@@ -1,23 +1,3 @@
-[![Build Status](https://travis-ci.org/unimonkiez/react-cordova-boilerplate.svg)](https://travis-ci.org/unimonkiez/react-cordova-boilerplate)
-[![Dependency Status](https://david-dm.org/unimonkiez/react-cordova-boilerplate.svg)](https://david-dm.org/unimonkiez/react-cordova-boilerplate)
-[![devDependency Status](https://david-dm.org/unimonkiez/react-cordova-boilerplate/dev-status.svg)](https://david-dm.org/unimonkiez/react-cordova-boilerplate#info=devDependencies)
-[![npm version](https://badge.fury.io/js/react-cordova-boilerplate.svg)](http://badge.fury.io/js/react-cordova-boilerplate)
-# Redux DevTools TodoMVC example
-![](http://s16.postimg.org/hje88sfkl/Screenshot_2015_09_14_18_04_50_1.png)
-
-![](http://s23.postimg.org/tmgzg652j/2015_10_06_17_22_52_1_online_video_cutter.gif)
-
-## Why cordova
-Cordova is really simple to build cross platform mobile applications for any of your needs, this boilerplate provides a great starting point for your next project, as it uses:
-* Cordova
-* ES6
-* React
-* React router
-* Webpack
-* Server rendering
-* Karma
-* Eslint
-* Style: Redium + SASS
 
 ## Installing
 1. Install dependencies: ```npm i```
