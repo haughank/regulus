@@ -17,7 +17,7 @@ export default {
       } else {
         console.log("Authenticated successfully with payload:", authData);
         // need to figure out why expiry time is now
-        console.log("expiry is is: ", Date(authData.expires));
+        //console.log("expiry is is: ", Date(authData.expires));
         // need to figure out if local storage is the best place to leave this
         localStorage.token = authData.token;
         localStorage.tokenExpiryTime = authData.expires;
@@ -27,7 +27,7 @@ export default {
     });
   },
 
-  createUser(email, password, callback) {
+  createUser(email, password, firstName, lastName, callback) {
     // Create a new user on Firebase
     ref.createUser({
       email    : email,
@@ -36,6 +36,12 @@ export default {
       if (error) {
         callback(error);
       } else {
+        console.log(email);
+        ref.child("users").child(userData.uid).set({
+            email: email,
+            firstName: firstName,
+            lastName: lastName
+        });
         callback(false);
       }
     });
@@ -43,6 +49,9 @@ export default {
 
   logout(cb) {
     delete localStorage.token;
+    delete localStorage.tokenExpiryTime;
+    delete localStorage.uid;
+    ref.unauth();
     if (cb) {
       cb(false);
     }

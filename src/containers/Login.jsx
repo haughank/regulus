@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import customFont from '../style/custom-font.scss';
 import auth from '../core/auth';
+import user from '../core/user';
 import * as CredentialsActions from '../actions/CredentialsActions';
 
 export class Login extends Component {
 
-  // TODO: make this the logicLogic container with login and register as two seperate UI components
+  // TODO: make this the loginLogic container with login and register as two seperate UI components
 
   static propTypes = {
     route: PropTypes.object,
@@ -37,8 +38,10 @@ export class Login extends Component {
     e.preventDefault();
     const email = this.refs.newEmail.value;
     const password = this.refs.newPassword.value;
+    const fname = this.refs.fname.value;
+    const lname = this.refs.lname.value;
 
-    auth.createUser(email, password, (error) => {
+    auth.createUser(email, password, fname, lname, (error) => {
       if(!error){
         auth.userLogin(email, password, this.loginCallback.bind(this));
       }
@@ -66,6 +69,7 @@ export class Login extends Component {
     const { credentialsActions } = this.props;
     if (authenticated) {
       credentialsActions.addCredentialsSucess();
+      user.initialiseState();
       // update route to show main page
       this.context.history.push('/home');
     } else {
@@ -103,6 +107,12 @@ export class Login extends Component {
           <div hidden={showRegister}>
               <h2>Register</h2>
               <form onSubmit={::this.handleRegisterSubmit}>
+                <div style={{ paddingTop: '5px' }}>
+                  <input type="text" ref="fname" placeholder="First Name"/>
+                </div>
+                <div style={{ paddingTop: '5px' }}>
+                  <input type="password" ref="lname" placeholder="Last Name"/>
+                </div>
                 <div style={{ paddingTop: '5px' }}>
                   <input type="text" ref="newEmail" placeholder="Email"/>
                 </div>

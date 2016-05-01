@@ -1,17 +1,21 @@
 import React, { Component, PropTypes } from 'react';
-import { createStore, combineReducers, compose } from 'redux';
+import { createStore, combineReducers, compose, applyMiddleware} from 'redux';
 import { devTools, persistState } from 'redux-devtools';
 import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 import { Provider } from 'react-redux';
 import * as reducers from '../reducers';
+import createLogger from 'redux-logger';
+import thunk from 'redux-thunk';
+import promise from 'redux-promise';
 
 const finalCreateStore = compose(
   devTools(),
-  persistState(__SERVER__ ? undefined : window.location.href.match(/[?&]debug_session=([^&]+)\b/))
+  persistState(__SERVER__ ? undefined : window.location.href.match(/[?&]debug_session=([^&]+)\b/)),
+  applyMiddleware(thunk, promise, createLogger())
 )(createStore);
 
 const reducer = combineReducers(reducers);
-const store = finalCreateStore(reducer);
+export const store = finalCreateStore(reducer);
 
 export default class App extends Component {
   static propTypes = {
@@ -34,3 +38,5 @@ export default class App extends Component {
     );
   }
 }
+
+//module.exports = store;

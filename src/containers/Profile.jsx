@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as TodoActions from '../actions/TodoActions';
 import * as CredentialsActions from '../actions/CredentialsActions';
 import auth from '../core/auth';
-import { Link } from 'react-router'
+import { store } from './App.jsx';
 
 const style = {
   marginTop: '15%',
@@ -34,9 +34,11 @@ export class Profile extends Component {
         </div>
         This is your Score Profile
         <div style={style}>
-          username: Kevin <br/>
-          profile picture: not available <br/>
-          stats: not available <br/>
+          First Name: {store.getState().userData.firstName} <br/>
+          Last Name: {store.getState().userData.lastName} <br/>
+          email: {store.getState().userData.email} <br/>
+          profile picture: Not implemented <br/>
+          stats: Not implemented <br/>
         </div>
       </div>
     );
