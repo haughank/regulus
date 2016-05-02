@@ -8,7 +8,7 @@ import * as CredentialsActions from '../actions/CredentialsActions';
 
 export class Login extends Component {
 
-  // TODO: make this the loginLogic container with login and register as two seperate UI components
+  // TODO: make this the login Logic container with login and register as two seperate UI components
 
   static propTypes = {
     route: PropTypes.object,

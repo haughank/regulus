@@ -36,6 +36,14 @@ export class League extends Component {
               </li>
             </ul>
           </div>
+          <div style={style}>
+            Scores:
+                { _.values(displayLeague.scores).map(score => {
+                  return (
+                      <div key={score.id}> {score.home} {score.homeGoals} - {score.awayGoals} {score.away} </div>
+                  )}
+                )}
+          </div>
       </div>
     );
   }
