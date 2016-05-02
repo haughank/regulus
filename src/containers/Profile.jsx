@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import * as TodoActions from '../actions/TodoActions';
 import * as CredentialsActions from '../actions/CredentialsActions';
 import auth from '../core/auth';
-import { store } from './App.jsx';
 
 const style = {
   marginTop: '15%',
@@ -16,6 +15,9 @@ const style = {
 export class Profile extends Component {
   static propTypes = {
    	credentialsActions: PropTypes.object.isRequired,
+    userFirstName: PropTypes.string.isRequired,
+    userLastName: PropTypes.string.isRequired,
+    userEmail: PropTypes.string.isRequired,
   };
   static contextTypes = {
     history: PropTypes.object
@@ -28,15 +30,15 @@ export class Profile extends Component {
   }
   render() {
     return (
-      <div>
+      <div style={{marginTop:'70px'}}>
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <button style={{ marginTop: '5px' }} onClick={::this.handleLogout}> Logout </button>
         </div>
         This is your Score Profile
         <div style={style}>
-          First Name: {store.getState().userData.firstName} <br/>
-          Last Name: {store.getState().userData.lastName} <br/>
-          email: {store.getState().userData.email} <br/>
+          First Name: {this.props.userFirstName} <br/>
+          Last Name: {this.props.userLastName} <br/>
+          email: {this.props.userEmail} <br/>
           profile picture: Not implemented <br/>
           stats: Not implemented <br/>
         </div>
@@ -45,6 +47,10 @@ export class Profile extends Component {
   }
 }
 
-export default connect(state => ({ }), dispatch => ({
+export default connect(state => ({
+  userFirstName: state.userData.firstName,
+  userLastName: state.userData.lastName,
+  userEmail: state.userData.email
+}), dispatch => ({
 	credentialsActions: bindActionCreators(CredentialsActions, dispatch)
 }))(Profile);

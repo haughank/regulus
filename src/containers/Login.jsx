@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import customFont from '../style/custom-font.scss';
 import auth from '../core/auth';
-import user from '../core/user';
+import data from '../core/data';
 import * as CredentialsActions from '../actions/CredentialsActions';
 
 export class Login extends Component {
@@ -69,7 +69,7 @@ export class Login extends Component {
     const { credentialsActions } = this.props;
     if (authenticated) {
       credentialsActions.addCredentialsSucess();
-      user.initialiseState();
+      data.initialiseState();
       // update route to show main page
       this.context.history.push('/home');
     } else {

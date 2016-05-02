@@ -7,10 +7,9 @@ const initialState = {
   email: ''
 };
 
-export default function todos(state = initialState, action) {
+export default function userData(state = initialState, action) {
   switch (action.type) {
     case UPDATE_USER_DATA:
-      console.log('the reducer is being called');
       return {
         uid: action.uid,
         firstName: action.firstName,
